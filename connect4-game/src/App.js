@@ -1,5 +1,6 @@
 import React from 'react';
 import Connect4 from './Connect4';
+import './App.css';
 
 function App() {
   return (
