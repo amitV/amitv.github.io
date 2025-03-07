@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/beckham/static/css/main.03b60417.css",
-    "main.js": "/beckham/static/js/main.32e58ede.js",
-    "static/js/453.37d48dcc.chunk.js": "/beckham/static/js/453.37d48dcc.chunk.js",
-    "index.html": "/beckham/index.html",
-    "main.03b60417.css.map": "/beckham/static/css/main.03b60417.css.map",
-    "main.32e58ede.js.map": "/beckham/static/js/main.32e58ede.js.map",
-    "453.37d48dcc.chunk.js.map": "/beckham/static/js/453.37d48dcc.chunk.js.map"
+    "main.css": "/static/css/main.03b60417.css",
+    "main.js": "/static/js/main.743c3e09.js",
+    "static/js/453.37d48dcc.chunk.js": "/static/js/453.37d48dcc.chunk.js",
+    "index.html": "/index.html",
+    "main.03b60417.css.map": "/static/css/main.03b60417.css.map",
+    "main.743c3e09.js.map": "/static/js/main.743c3e09.js.map",
+    "453.37d48dcc.chunk.js.map": "/static/js/453.37d48dcc.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.03b60417.css",
-    "static/js/main.32e58ede.js"
+    "static/js/main.743c3e09.js"
   ]
 }
