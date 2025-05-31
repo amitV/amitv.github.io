@@ -1,0 +1,287 @@
+import React, { useState } from 'react';
+import './Connect4.css';
+import playerImage from './profile-pic.jpg'; // Add this import - make sure to place the image in the src folder
+
+const Connect4 = () => {
+  // Game constants
+  const ROWS = 6;
+  const COLS = 7;
+  const EMPTY = null;
+  const PLAYER_1 = 'red';
+  const PLAYER_2 = 'gold';
+
+  // Game state
+  const [board, setBoard] = useState(Array(ROWS).fill().map(() => Array(COLS).fill(EMPTY)));
+  const [currentPlayer, setCurrentPlayer] = useState(PLAYER_1);
+  const [winner, setWinner] = useState(null);
+  const [isDraw, setIsDraw] = useState(false);
+  const [winningCells, setWinningCells] = useState([]);
+  const [gameHistory, setGameHistory] = useState({ [PLAYER_1]: 0, [PLAYER_2]: 0 });
+  const [isDropping, setIsDropping] = useState({ col: null, row: null });
+
+  // Get the next available row in a column
+  const getAvailableRow = (col) => {
+    for (let row = ROWS - 1; row >= 0; row--) {
+      if (board[row][col] === EMPTY) {
+        return row;
+      }
+    }
+    return -1; // Column is full
+  };
+
+  // Check if the board is full
+  const isBoardFull = () => {
+    return board[0].every(cell => cell !== EMPTY);
+  };
+
+  // Check for a winner
+  const checkForWinner = (row, col, player) => {
+    // Check directions: horizontal, vertical, diagonal up, diagonal down
+    const directions = [
+      [[0, 1], [0, -1]], // horizontal
+      [[1, 0], [-1, 0]], // vertical
+      [[1, 1], [-1, -1]], // diagonal /
+      [[1, -1], [-1, 1]], // diagonal \
+    ];
+
+    for (const [dir1, dir2] of directions) {
+      let count = 1; // Start with 1 for the current piece
+      let winningPositions = [[row, col]];
+
+      // Check in first direction
+      for (let i = 1; i < 4; i++) {
+        const newRow = row + i * dir1[0];
+        const newCol = col + i * dir1[1];
+        if (newRow >= 0 && newRow < ROWS && newCol >= 0 && newCol < COLS && board[newRow][newCol] === player) {
+          count++;
+          winningPositions.push([newRow, newCol]);
+        } else {
+          break;
+        }
+      }
+
+      // Check in second direction
+      for (let i = 1; i < 4; i++) {
+        const newRow = row + i * dir2[0];
+        const newCol = col + i * dir2[1];
+        if (newRow >= 0 && newRow < ROWS && newCol >= 0 && newCol < COLS && board[newRow][newCol] === player) {
+          count++;
+          winningPositions.push([newRow, newCol]);
+        } else {
+          break;
+        }
+      }
+
+      if (count >= 4) {
+        return winningPositions;
+      }
+    }
+    return null;
+  };
+
+  // Handle column click for dropping a piece
+  const handleColumnClick = (col) => {
+    if (winner || isDraw) return; // Game is over
+
+    const row = getAvailableRow(col);
+    if (row === -1) return; // Column is full
+
+    // Animate the piece dropping
+    const newBoard = [...board];
+    setIsDropping({ col, row });
+
+    // After a brief delay, place the piece and check for game end conditions
+    setTimeout(() => {
+      newBoard[row][col] = currentPlayer;
+      setBoard(newBoard);
+      setIsDropping({ col: null, row: null });
+
+      // Check for a winner
+      const winPositions = checkForWinner(row, col, currentPlayer);
+      if (winPositions) {
+        setWinner(currentPlayer);
+        setWinningCells(winPositions);
+        setGameHistory(prev => ({ ...prev, [currentPlayer]: prev[currentPlayer] + 1 }));
+        return;
+      }
+
+      // Check for a draw
+      if (isBoardFull()) {
+        setIsDraw(true);
+        return;
+      }
+
+      // Switch players
+      setCurrentPlayer(currentPlayer === PLAYER_1 ? PLAYER_2 : PLAYER_1);
+    }, 300); // 300ms for animation
+  };
+
+  // Reset the game
+  const resetGame = () => {
+    setBoard(Array(ROWS).fill().map(() => Array(COLS).fill(EMPTY)));
+    setCurrentPlayer(winner || PLAYER_1); // Winner goes first in next game, or PLAYER_1 if draw
+    setWinner(null);
+    setIsDraw(false);
+    setWinningCells([]);
+    setIsDropping({ col: null, row: null });
+  };
+
+  // Determine if a cell is part of the winning combination
+  const isWinningCell = (row, col) => {
+    return winningCells.some(pos => pos[0] === row && pos[1] === col);
+  };
+
+  // Render a single cell
+  const renderCell = (row, col) => {
+    const cellContent = board[row][col];
+    const isWinning = winner && isWinningCell(row, col);
+    const isCurrentlyDropping = isDropping.col === col && isDropping.row === row;
+
+    // Base class name for the cell piece
+    let cellPieceClassName = "cell-piece";
+    
+    // Determine if this cell should be red (with image)
+    const isRedCell = cellContent === PLAYER_1 || (isCurrentlyDropping && currentPlayer === PLAYER_1);
+    // Determine if this cell should be yellow
+    const isYellowCell = cellContent === PLAYER_2 || (isCurrentlyDropping && currentPlayer === PLAYER_2);
+    
+    // Add color-specific class
+    if (isRedCell) {
+      cellPieceClassName += " cell-red";
+    } else if (isYellowCell) {
+      cellPieceClassName += " cell-yellow";
+    } else {
+      cellPieceClassName += " cell-empty";
+    }
+
+    // Add additional classes for winning or dropping animations
+    if (isWinning) {
+      cellPieceClassName += " cell-win";
+    }
+    if (isCurrentlyDropping) {
+      cellPieceClassName += " cell-dropping";
+    }
+
+    return (
+      <div key={`${row}-${col}`} className="game-cell">
+        <div className="cell-background"></div>
+        <div 
+          className={cellPieceClassName}
+          style={isRedCell ? {
+            backgroundImage: `url(${playerImage})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center'
+          } : {}}
+        ></div>
+      </div>
+    );
+  };
+
+  // Render column hover indicators
+  const renderColumnIndicator = (col) => {
+    if (winner || isDraw || isDropping.col !== null) return null;
+    const isColumnFull = getAvailableRow(col) === -1;
+    
+    const indicatorClassName = `indicator-piece ${
+      currentPlayer === PLAYER_1 ? 'indicator-red' : 'indicator-yellow'
+    }`;
+    
+    const wrapperClassName = `indicator-wrapper ${
+      isColumnFull ? 'indicator-hidden' : 'indicator-visible'
+    }`;
+    
+    // Determine if the indicator should show the image (when it's red player's turn)
+    const shouldShowImage = currentPlayer === PLAYER_1;
+    
+    return (
+      <div className={wrapperClassName}>
+        <div 
+          className={indicatorClassName}
+          style={shouldShowImage ? {
+            backgroundImage: `url(${playerImage})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center'
+          } : {}}
+        ></div>
+      </div>
+    );
+  };
+
+  return (
+    <div className="connect4-container">
+      <h1 className="game-title">Predator Face-off Connect 4</h1>
+      
+      {/* Game status */}
+      <div className="game-status">
+        {winner ? (
+          <div className="win-message">
+            <span className={`player-indicator ${winner === PLAYER_1 ? 'player-red' : 'player-yellow'}`}>
+              {winner === PLAYER_1 ? 'Red' : 'Gold'} Wins!
+            </span>
+          </div>
+        ) : isDraw ? (
+          <div className="draw-message">Draw Game!</div>
+        ) : (
+          <div className="status-text">
+            <span className="status-text-bold">Current Player: </span>
+            <span className={`player-indicator ${currentPlayer === PLAYER_1 ? 'player-red' : 'player-yellow'}`}>
+              {currentPlayer === PLAYER_1 ? 'Red' : 'Gold'}
+            </span>
+          </div>
+        )}
+      </div>
+      
+      {/* Score display */}
+      <div className="score-container">
+        <div className="score-red">
+          Red: {gameHistory[PLAYER_1]}
+        </div>
+        <div className="score-yellow">
+          Gold: {gameHistory[PLAYER_2]}
+        </div>
+      </div>
+
+      {/* Column indicators */}
+      <div className="column-indicators">
+        {Array(COLS).fill().map((_, col) => (
+          <div key={`indicator-${col}`} className="indicator-container">
+            {renderColumnIndicator(col)}
+          </div>
+        ))}
+      </div>
+      
+      {/* Game board */}
+      <div className="game-board">
+        {Array(ROWS).fill().map((_, row) => (
+          <div key={`row-${row}`} className="board-row">
+            {Array(COLS).fill().map((_, col) => (
+              <div 
+                key={`col-${col}`} 
+                className="cell-container" 
+                onClick={() => handleColumnClick(col)}
+              >
+                {renderCell(row, col)}
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+      
+      {/* Reset button */}
+      <button
+        className="game-button"
+        onClick={resetGame}
+      >
+        {winner || isDraw ? 'New Game' : 'Reset Game'}
+      </button>
+      
+      {/* Game instructions */}
+      <div className="instructions-container">
+        <p className="instructions-paragraph">Click on any column to drop your piece.</p>
+        <p>Connect 4 pieces of your color horizontally, vertically, or diagonally to win!</p>
+      </div>
+    </div>
+  );
+};
+
+export default Connect4;
