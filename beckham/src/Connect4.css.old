@@ -1,0 +1,258 @@
+/* Connect4.css - Standard CSS for Connect Four game */
+
+/* Main container */
+.connect4-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #dbeafe;
+  padding: 1rem;
+}
+
+/* Game title */
+.game-title {
+  font-size: 1.875rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: #1e40af;
+}
+
+/* Game status section */
+.game-status {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* Status text */
+.status-text {
+  font-size: 1.25rem;
+}
+
+.status-text-bold {
+  font-weight: bold;
+}
+
+/* Player indicator labels */
+.player-indicator {
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.25rem;
+}
+
+.player-red {
+  background-color: #ef4444;
+  color: white;
+}
+
+.player-yellow {
+  background-color: #facc15;
+  color: black;
+}
+
+/* Win message */
+.win-message {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+/* Draw message */
+.draw-message {
+  font-size: 1.25rem;
+  font-weight: bold;
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.25rem;
+  background-color: #6b7280;
+  color: white;
+}
+
+/* Score display */
+.score-container {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.score-red {
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.25rem;
+  background-color: #ef4444;
+  color: white;
+}
+
+.score-yellow {
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.25rem;
+  background-color: #facc15;
+  color: black;
+}
+
+/* Column indicators */
+.column-indicators {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+
+.indicator-container {
+  display: flex;
+  justify-content: center;
+}
+
+.indicator-wrapper {
+  width: 3.5rem;
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.indicator-piece {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 9999px;
+}
+
+.indicator-red {
+  background-color: #ef4444;
+}
+
+.indicator-yellow {
+  background-color: #facc15;
+}
+
+.indicator-hidden {
+  opacity: 0;
+}
+
+.indicator-visible {
+  opacity: 1;
+}
+
+/* Game board */
+.game-board {
+  background-color: #2563eb;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.board-row {
+  display: flex;
+}
+
+.cell-container {
+  cursor: pointer;
+}
+
+/* Individual cells */
+.game-cell {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 9999px;
+  margin: 0.25rem;
+  position: relative;
+}
+
+@media (min-width: 640px) {
+  .game-cell {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .game-cell {
+    width: 4rem;
+    height: 4rem;
+  }
+}
+
+.cell-background {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background-color: #1d4ed8;
+  border: 2px solid #1e3a8a;
+}
+
+.cell-piece {
+  position: absolute;
+  inset: 0.25rem;
+  border-radius: 9999px;
+}
+
+.cell-empty {
+  background-color: white;
+  border: 2px solid #d1d5db;
+}
+
+.cell-red {
+  background-color: #ef4444;
+  border: 2px solid #b91c1c;
+}
+
+.cell-yellow {
+  background-color: #facc15;
+  border: 2px solid #ca8a04;
+}
+
+.cell-win {
+  animation: pulse 2s infinite;
+}
+
+.cell-dropping {
+  animation: bounce 0.3s ease;
+}
+
+/* Button styles */
+.game-button {
+  margin-top: 1.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #3b82f6;
+  color: white;
+  border-radius: 0.25rem;
+  border: none;
+  cursor: pointer;
+}
+
+.game-button:hover {
+  background-color: #2563eb;
+}
+
+.game-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+}
+
+/* Instructions */
+.instructions-container {
+  margin-top: 1.5rem;
+  text-align: center;
+  color: #4b5563;
+  max-width: 28rem;
+}
+
+.instructions-paragraph {
+  margin-bottom: 0.5rem;
+}
+
+/* Animations */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
