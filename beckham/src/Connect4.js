@@ -209,7 +209,7 @@ const Connect4 = () => {
 
   return (
     <div className="connect4-container">
-      <h1 className="game-title">Predator Face-off Connect 4</h1>
+      <h1 className="game-title">Beckham's Connect 4</h1>
       
       {/* Game status */}
       <div className="game-status">
@@ -234,7 +234,7 @@ const Connect4 = () => {
       {/* Score display */}
       <div className="score-container">
         <div className="score-red">
-          Red: {gameHistory[PLAYER_1]}
+          Silver: {gameHistory[PLAYER_1]}
         </div>
         <div className="score-yellow">
           Gold: {gameHistory[PLAYER_2]}

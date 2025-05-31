@@ -46,7 +46,7 @@
 }
 
 .player-yellow {
-  background-color: #FFD700;
+  background-color: #D1A14a;
   color: black;
 }
 
@@ -77,14 +77,14 @@
 .score-red {
   padding: 0.25rem 0.75rem;
   border-radius: 0.25rem;
-  background-color: #ef4444;
-  color: white;
+  background-color: #c0c0c0;
+  color: black;
 }
 
 .score-yellow {
   padding: 0.25rem 0.75rem;
   border-radius: 0.25rem;
-  background-color: #FFD700;
+  background-color: #D1A14a;
   color: black;
 }
 
@@ -115,11 +115,11 @@
 }
 
 .indicator-red {
-  background-color: #ef4444;
+  background-color: #c0c0c0;
 }
 
 .indicator-yellow {
-  background-color: #FFD700;
+  background-color: #D1A14a;
 }
 
 .indicator-hidden {
@@ -132,7 +132,7 @@
 
 /* Game board */
 .game-board {
-  background-color: #2563eb;
+  background-color: #000000;
   padding: 0.5rem;
   border-radius: 0.5rem;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
@@ -189,12 +189,12 @@
 }
 
 .cell-red {
-  background-color: #ef4444;
+  background-color: #c0c0c0;
   border: 2px solid #b91c1c;
 }
 
 .cell-yellow {
-  background-color: #FFD700;
+  background-color: #D1A14a;
   border: 2px solid #ca8a04;
 }
 
