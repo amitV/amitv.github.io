@@ -216,7 +216,7 @@ const Connect4 = () => {
         {winner ? (
           <div className="win-message">
             <span className={`player-indicator ${winner === PLAYER_1 ? 'player-red' : 'player-yellow'}`}>
-              {winner === PLAYER_1 ? 'Red' : 'Gold'} Wins!
+              {winner === PLAYER_1 ? 'Beckham' : 'Gold'} Wins!
             </span>
           </div>
         ) : isDraw ? (
@@ -225,7 +225,7 @@ const Connect4 = () => {
           <div className="status-text">
             <span className="status-text-bold">Current Player: </span>
             <span className={`player-indicator ${currentPlayer === PLAYER_1 ? 'player-red' : 'player-yellow'}`}>
-              {currentPlayer === PLAYER_1 ? 'Red' : 'Gold'}
+              {currentPlayer === PLAYER_1 ? 'Beckham' : 'Gold'}
             </span>
           </div>
         )}
@@ -234,7 +234,7 @@ const Connect4 = () => {
       {/* Score display */}
       <div className="score-container">
         <div className="score-red">
-          Silver: {gameHistory[PLAYER_1]}
+          Beckham: {gameHistory[PLAYER_1]}
         </div>
         <div className="score-yellow">
           Gold: {gameHistory[PLAYER_2]}
